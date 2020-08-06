@@ -38,7 +38,8 @@ function CategoryCreate () {
 
   useEffect(() => {
 
-    const URL = 'http://localhost:3001/categories'
+    // const URL = 'http://localhost:3001/categories'
+    const URL = 'https://core-imersao-react-alura.herokuapp.com/'
 
     fetch(URL).then(async (response) => {
       const responseData = await response.json()
