@@ -1,40 +1,47 @@
-import React from 'react'
-import styled from 'styled-components'
-import Menu from '../../components/Menu'
+import React, { useEffect, useState } from 'react'
 import BannerMain from '../../components/BannerMain'
 import Carousel from '../../components/Carousel'
-import Footer from '../../components/Footer'
-import dadosIniciais from '../../data/dados_iniciais.json'
-
-const AppWrapper = styled.div`
-  background-color: var(--grayDark);
-`
+import categoriesRepository from '../../repositories/categories'
+import PageDefault from '../../components/PageDefault'
 
 function Home () {
+
+  const [initialData, setInitialData] = useState([])
+
+  // http://127.0.0.1:8080/categorias?_embed=videos
+
+  useEffect(() => {
+    categoriesRepository.getAllWithVideos().then((categoriesWithVideos) => {
+      setInitialData(categoriesWithVideos)
+    }).catch((err) => {
+      console.log(err.message)
+    })
+  }, [])
+
   return (
-    <AppWrapper>
-      <Menu/>
+    <PageDefault paddingAll={0}>
+      {initialData.length === 0 && (<div>Loading...</div>)}
 
-      <BannerMain
-        videoTitle={dadosIniciais.categorias[0].videos[0].titulo}
-        url={dadosIniciais.categorias[0].videos[0].url}
-        videoDescription={'algo para aparecer na tela kkkk'}
-      />
-
-      <Carousel ignoreFirstVideo category={dadosIniciais.categorias[0]}/>
-
-      <Carousel category={dadosIniciais.categorias[1]}/>
-
-      <Carousel category={dadosIniciais.categorias[2]}/>
-
-      <Carousel category={dadosIniciais.categorias[3]}/>
-
-      <Carousel category={dadosIniciais.categorias[4]}/>
-
-      <Carousel category={dadosIniciais.categorias[5]}/>
-
-      <Footer/>
-    </AppWrapper>
+      {
+        initialData.map((category, index) => {
+          if (index === 0) {
+            return (
+              <div key={category.id}>
+                <BannerMain
+                  videoTitle={initialData[0].videos[0].title}
+                  url={initialData[0].videos[0].url}
+                  videoDescription={'Vital Signs Written by Kiko Loureiro'}
+                />
+                <Carousel ignoreFirstVideo category={initialData[0]}/>
+              </div>
+            )
+          }
+          return (
+            <Carousel key={category.id} category={category}/>
+          )
+        })
+      }
+    </PageDefault>
   )
 }
 

@@ -7,9 +7,9 @@ function Carousel ({
   ignoreFirstVideo,
   category,
 }) {
-  const categoryTitle = category.titulo
-  const categoryColor = category.cor
-  const categoryExtraLink = category.link_extra
+  const categoryTitle = category.title
+  const categoryColor = category.color
+  const categoryExtraLink = category.extra_link
   const videos = category.videos
 
   return (
@@ -33,9 +33,9 @@ function Carousel ({
           }
 
           return (
-            <SliderItem key={video.titulo}>
+            <SliderItem key={`id_${video.id}`}>
               <VideoCard
-                videoTitle={video.titulo}
+                videoTitle={video.title}
                 videoURL={video.url}
                 categoryColor={categoryColor}
               />

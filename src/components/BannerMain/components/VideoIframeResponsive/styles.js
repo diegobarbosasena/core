@@ -6,6 +6,8 @@ export const VideoContainer = styled.div`
   padding-top: 56.25%;
   overflow: hidden;
   
+  border-radius: 8px;
+  
   @media (max-width: 800px) {
     display: none;
   }
